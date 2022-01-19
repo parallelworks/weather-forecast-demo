@@ -1,0 +1,41 @@
+FROM nceplibs-public-v2-20210224
+
+SHELL [ "/bin/bash", "--login", "-c" ]
+
+RUN set -xue ; \
+    git clone -b release/public-v1 https://github.com/ufs-community/ufs-srweather-app.git /usr/local/src/ufs-srweather-app ; \
+    cd /usr/local/src/ufs-srweather-app ; \
+    ./manage_externals/checkout_externals
+
+COPY config.sh /usr/local/src/ufs-srweather-app/regional_workflow/ush/config.sh
+COPY run_all.sh /usr/local/src/ufs-srweather-app/regional_workflow/ush/wrappers/run_all.sh
+
+# If you want to modify the code or scripts, do it at this point,
+# before the next RUN line.
+
+RUN module load cmake ; \
+    module load gcc ; \
+    module load NCEPLIBS/srw-release ; \
+    module use /usr/local/modules ; \
+    module load esmf/8.0.0 ; \
+    module load jasper/1.900.1 ; \
+    module load libjpeg/9.1.0 ; \
+    module load netcdf/4.7.4 ; \
+    module load libpng/1.6.35 ; \
+    module load jasper/1.900.1 ; \
+    module list ; \
+    set -xue ; \
+    export CMAKE_C_COMPILER=mpicc ; \
+    export CMAKE_CXX_COMPILER=mpicxx ; \
+    export CMAKE_Fortran_COMPILER=mpif90 ; \
+    export CMAKE_Platform=linux.intel ; \
+    head -1 "$ESMFMKFILE" ; \
+    cd /usr/local/src/ufs-srweather-app ; \
+    mkdir build ; \
+    cd build ; \
+    nprocs=$( grep -E 'processor[[:space:]]*:' /proc/cpuinfo|wc -l ) ; \
+    cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_INSTALL_PREFIX=.. \
+      -DCMAKE_PREFIX_PATH=/usr/local .. 2>&1 | tee log.cmake ; \
+    make "-j$nprocs" VERBOSE=1 2>&1 | tee log.make ; \
+    cd .. ; \
+    rm -rf build

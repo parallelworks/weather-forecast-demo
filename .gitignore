@@ -1,3 +1,6 @@
+# Emacs backup files
+*~
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -127,3 +130,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Really big files that we don't want in repo
+20210224-ubuntu18-nceplibs.gz
+fix_files.tar.gz
+gst_model_data.tar.gz
+natural_earth_ufs-srw-release-v1.0.0.tar.gz
