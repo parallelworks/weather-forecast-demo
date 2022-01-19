@@ -1,9 +1,14 @@
-FROM nceplibs-public-v2-20210224
+# Original FROM
+#FROM nceplibs-public-v2-20210224
+FROM import-nceplibs-20220119
 
 SHELL [ "/bin/bash", "--login", "-c" ]
 
+# Original branch (set below)
+# git clone -b release/public-v1 https://github.com/ufs-community/ufs-srweather-app.git /usr/local/src/ufs-srweather-app ; \
+
 RUN set -xue ; \
-    git clone -b release/public-v1 https://github.com/ufs-community/ufs-srweather-app.git /usr/local/src/ufs-srweather-app ; \
+    git clone --branch ufs-v1.0.1 https://github.com/ufs-community/ufs-srweather-app.git /usr/local/src/ufs-srweather-app
     cd /usr/local/src/ufs-srweather-app ; \
     ./manage_externals/checkout_externals
 
