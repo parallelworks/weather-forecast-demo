@@ -10,6 +10,9 @@ wget https://ufs-data.s3.amazonaws.com/public_release/ufs-srweather-app-v1.0.0/d
 
 wget https://ufs-data.s3.amazonaws.com/public_release/ufs-srweather-app-v1.0.0/docker/run_all.sh
 
+# Need to add execute permissions to script.
+chmod u+x run_all.sh
+
 wget https://ufs-data.s3.amazonaws.com/public_release/ufs-srweather-app-v1.0.0/docker/ufs-srweather-app-Dockerfile
 
 wget https://ufs-data.s3.amazonaws.com/public_release/ufs-srweather-app-v1.0.0/docker/fix_files.tar.gz

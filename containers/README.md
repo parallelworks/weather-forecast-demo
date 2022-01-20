@@ -14,6 +14,8 @@ is automated in `get_UFS_SRW_files.sh`.  The files are:
 6. [Native Earth files](https://ftp.emc.ncep.noaa.gov/EIB/UFS/SRW/v1p0/natural_earth/natural_earth_ufs-srw-release-v1.0.0.tar.gz)
 7. [Model input data](https://ftp.emc.ncep.noaa.gov/EIB/UFS/SRW/v1p0/simple_test_case/gst_model_data.tar.gz)
 
+Ensure that run_all.sh is given execute permissions.
+
 ## Step 2: Set environment variables
 
 These environment variables are required for running the container
@@ -42,8 +44,10 @@ mkdir $HOST_TEMP_DIR
 cd "$HOST_TEMP_DIR"
 mv /path/to/model_data_fv3gfs_2019061500.tar.xz .
 mv /path/to/fix_files.tar.xz .
+mv /path/to/natural_earth_ufs-srw-release-v1.0.0.tar.gz .
 tar -xvzf model_data_fv3gfs_2019061500.tar.xz
 tar -xvzf fix_files.tar.xz
+tar -xvzf natural_earth_ufs-srw-release-v1.0.0.tar.gz
 ```
 
 One way to bypass this is to set the environment variable
@@ -56,11 +60,21 @@ done anyway, might as well do it now for simplicity.
 See `build_UFS_SRW_container.sh` for steps that import the downloaded
 NCEPLIBS container (prebuilt) and build the Docker container.  If you
 prefer to build your own NCEPLIBS container, the instructions are in
-the [NCEPLIBS-external documentation](https://github.com/NOAA-EMC/NCEPLIBS-external/blob/ufs-v2.0.0/doc/README_ubuntu_gnu.txt). The container
-build takes a few minutes to run.
+the [NCEPLIBS-external documentation](https://github.com/NOAA-EMC/NCEPLIBS-external/blob/ufs-v2.0.0/doc/README_ubuntu_gnu.txt). The container build takes a few minutes to run.
+
+If you separate the container import and build steps,
+you can move `20210224-ubuntu18-nceplibs.gz` to somewhere
+else and still import it into the local Docker container
+registry.  Then, this file does not get included in the
+build context either, further speeding up build time.
 
 ## Step 5: Run the Docker container
 
 **WARNING:**  If you have shut down your instance, you will need to
-reset the environment variables in Step 2.
+reset the environment variables in Step 2.  They are automatically
+set in `run_UFS_SRW_container.sh`.
 
+## Step 6: Monitor and postprocess and visualize the runs.
+
+See RUN_MONITORING.md in the top level directory since this
+applies to output with and without containers.
