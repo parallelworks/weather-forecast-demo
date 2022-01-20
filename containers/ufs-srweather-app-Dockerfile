@@ -8,7 +8,7 @@ SHELL [ "/bin/bash", "--login", "-c" ]
 # git clone -b release/public-v1 https://github.com/ufs-community/ufs-srweather-app.git /usr/local/src/ufs-srweather-app ; \
 
 RUN set -xue ; \
-    git clone --branch ufs-v1.0.1 https://github.com/ufs-community/ufs-srweather-app.git /usr/local/src/ufs-srweather-app
+    git clone --branch ufs-v1.0.1 https://github.com/ufs-community/ufs-srweather-app.git /usr/local/src/ufs-srweather-app ; \
     cd /usr/local/src/ufs-srweather-app ; \
     ./manage_externals/checkout_externals
 

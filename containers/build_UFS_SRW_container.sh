@@ -13,6 +13,13 @@
 #    image name updated.
 # 3. Dockerfile has different branch
 
+# If you do not use a .dockerignore
+# or the Docker Build Kit, see
+# https://stackoverflow.com/questions/26600769/build-context-for-docker-image-very-large
+# you will end up with a Docker image
+# that is too big.
+
+
 # New container images are created
 # each time this step is run if
 # previous images are not cleared.
