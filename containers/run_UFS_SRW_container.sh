@@ -18,6 +18,11 @@ export DOCKER_TEMP_DIR=/tmp/docker
 
 # Modified command b/c:
 # 1) add --rm to remove container after close
-# 2) add sudo to run docker
-# 3) TODO: add $1 as the input script that runs in the container.
-sudo docker run --rm --mount "type=bind,source=${HOST_TEMP_DIR},target=${DOCKER_TEMP_DIR}" -it parallelworks/ufs-srweather-app bash --login
+# 2) add sudo to run docker here because if
+#    sudo prefixes this script, the whoami above
+#    returns root, not the home of the user, for
+#    HOST_TEMP_DIR.
+# 3) add an automated run script.  Need to copy it
+#    to $HOST_TEMP_DIR so it is mounted in the container.
+cp -f demo_script.sh $HOST_TEMP_DIR/demo_script.sh
+sudo docker run --rm --mount "type=bind,source=${HOST_TEMP_DIR},target=${DOCKER_TEMP_DIR}" -it parallelworks/ufs-srweather-app /bin/bash --login $DOCKER_TEMP_DIR/demo_script.sh

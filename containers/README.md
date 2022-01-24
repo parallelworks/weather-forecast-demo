@@ -1,6 +1,7 @@
 # Containers for weather-forecast-demo
 
-These instructions are based on the [UFS SRW Users' Guide](https://ufs-srweather-app.readthedocs.io/en/ufs-v1.0.1/Docker.html).  You will need Docker and at least 100GB of disk space.
+These instructions are based on the [UFS SRW Users' Guide](https://ufs-srweather-app.readthedocs.io/en/ufs-v1.0.1/Docker.html).  You will need Docker and at least 100GB of disk space.  It takes about 5-10 mins to build
+the container depending on size of machine.
 
 ## Step 1: Download files
 
@@ -78,3 +79,18 @@ set in `run_UFS_SRW_container.sh`.
 
 See RUN_MONITORING.md in the top level directory since this
 applies to output with and without containers.
+
+## Step 7: Managing containers
+
+It appears that the UFS SRW compiled code may be sensitive
+to the number of cores that the code was compiled on. For
+example, compiling on a 16 CPU machine  and using the default
+12 CPU and 4CPU settings seems to work without changing the
+container.  On the other hand, trying to run that same container
+on a larger machine results in memmory/bus errors.  For now,
+tag the containers based on the the number of CPU used
+to compile them, e.g.:
+```bash
+docker image tag <image_id> parallelworks/ufs-srweather-demo:v1.16cpu
+```
+The v1 referes to the UFS-SRW version number.

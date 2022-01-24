@@ -77,8 +77,11 @@ tail -20 "$LOG_DIR/fcst.log"
 
 # Check for the last two files in the 48 hour forecast. This ensures
 # the model has finished before we run the post.
-ls -l $EXPTDIR/2019061500/dynf048.nc
-ls -l $EXPTDIR/2019061500/phyf048.nc
+#ls -l $EXPTDIR/2019061500/dynf048.nc
+#ls -l $EXPTDIR/2019061500/phyf048.nc
+# Shorten check from 48h to 6h forecast
+ls -l $EXPTDIR/2019061500/dynf006.nc
+ls -l $EXPTDIR/2019061500/phyf006.nc
 
 echo Forecast completed. Running the post.
 nohup ./run_post.sh > "$LOG_DIR/post.log" 2>&1
@@ -86,7 +89,11 @@ tail -20 "$LOG_DIR/post.log"
 
 echo Plotting data. This could take a while.
 cd ../Python
-python3 ./plot_allvars.py 2019061500 6 48 6 \
+#python3 ./plot_allvars.py 2019061500 6 48 6 \
+#        $DOCKER_TEMP_DIR/experiment/test_CONUS_25km_GFSv15p2/ \
+#        $DOCKER_TEMP_DIR/natural_earth
+# Shorten plotting from 48h to 6h forecast
+python3 ./plot_allvars.py 2019061500 6 6 6 \
         $DOCKER_TEMP_DIR/experiment/test_CONUS_25km_GFSv15p2/ \
         $DOCKER_TEMP_DIR/natural_earth
 # Make sure at least one plot exists:

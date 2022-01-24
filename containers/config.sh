@@ -15,7 +15,9 @@ PREDEF_GRID_NAME="RRFS_CONUS_25km"
 GRID_GEN_METHOD="ESGgrid"
 QUILTING="TRUE"
 CCPP_PHYS_SUITE="FV3_GFS_v15p2"
-FCST_LEN_HRS="48"
+#FCST_LEN_HRS="48"
+# Shorten forecast length from 48h to 6h.
+FCST_LEN_HRS="6"
 LBC_SPEC_INTVL_HRS="6"
 
 TOPO_DIR=$DOCKER_TEMP_DIR/fix_orog
@@ -58,7 +60,7 @@ RUN_CMD_POST="mpirun -np 12"
 
 # Comment out the next five lines if you want the 12 core settings
 # Four (4) core machines
-#LAYOUT_X="1"
-#LAYOUT_Y="3"
-#RUN_CMD_UTILS="mpirun -np 4"
-#RUN_CMD_POST="mpirun -np 4"
+LAYOUT_X="1"
+LAYOUT_Y="3"
+RUN_CMD_UTILS="mpirun -np 4"
+RUN_CMD_POST="mpirun -np 4"

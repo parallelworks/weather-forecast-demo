@@ -77,9 +77,10 @@ Plotting in Python uses only a single core at 100% and minimal RAM.
 
 ## ERRORS
 
-Can't run 6 hour?  Try afresh.
+1. Can't run 6 hour?  Try afresh.
 
-Workflow crashes in plotting:
+2. Workflow crashes in plotting:
+
 (due to not putting natural_earth in $DOCKER_TEMP_DIR
 b/c not listed in instructions) probably cleared up now.
 
@@ -101,3 +102,9 @@ n open
     fp = builtins.open(filename, "rb")
 FileNotFoundError: [Errno 2] No such file or directory: '/tmp/docker/natur
 al_earth/raster_files/NE1_50M_SR_W.tif'
+
+(due to forecast length shortening):
+ls: cannot access '/tmp/docker/experiment/test_CONUS_25km_GFSv15p2/2019061
+500/dynf048.nc': No such file or directory
+
+3. Bus errors and major memory issues when taking a container built with 12 CPU and just changing to 64CPU after reboot on a bigger machine. The possible problems are: bad config change, need to restructure app, need to rebuild container for more CPU.
