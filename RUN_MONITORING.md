@@ -3,7 +3,7 @@
 Read this file after ./container/README.md or
 ./direct_install/README.md (general setup and running notes).
 
-Peak RAM usage on LINUX for 25km grid: 18GB
+Peak RAM usage on LINUX for 25km grid: 20GB
 
 ## Run scoping
 
@@ -16,7 +16,8 @@ forecast length and reducted CPUs to 4 in:
 `/usr/local/src/ufs-srweather-app/regional_workflow/ush/config.sh`
 which is where the config.sh that gets included into the container
 appears to end up.  So, in summary, you can change the run
-specifications on-the-fly without having to rebuild the container.
+specifications on-the-fly without having to rebuild the container
+(under certain situations...).
 
 ## Data management
 
@@ -35,8 +36,13 @@ on the host machine.  Note that the last directory
 name is the EXPT_SUBDIR set in config.sh and also
 **hard coded** in a variety of places in run_all.sh.
 
-A 48 hour forecast will output 11G of data in `experiment`
-(including postproc)and 16M of logs in `log`.
+A 48 hour forecast on the 25km grid will output
+11G of data in `experiment` (including postproc)
+and 16M of logs in `log`.
+
+A 6 hour forecast on the 25km grid will output
+5GB of data in `experiment`.  With 4 CPU, it
+takes 35 minutes to run end-to-end.
 
 ## Preprocessing, run setup, and overview
 
@@ -77,34 +83,4 @@ Plotting in Python uses only a single core at 100% and minimal RAM.
 
 ## ERRORS
 
-1. Can't run 6 hour?  Try afresh.
-
-2. Workflow crashes in plotting:
-
-(due to not putting natural_earth in $DOCKER_TEMP_DIR
-b/c not listed in instructions) probably cleared up now.
-
-Traceback (most recent call last):
-  File "./plot_allvars.py", line 804, in <module>
-    main()
-  File "./plot_allvars.py", line 400, in main
-    plot_all(dom)
-  File "./plot_allvars.py", line 467, in plot_all
-    img = plt.imread(CARTOPY_DIR+'/raster_files/NE1_50M_SR_W.tif')
-  File "/usr/local/lib/python3.6/dist-packages/matplotlib/pyplot.py", line
- 2246, in imread
-    return matplotlib.image.imread(fname, format)
-  File "/usr/local/lib/python3.6/dist-packages/matplotlib/image.py", line 
-1496, in imread
-    with img_open(fname) as image:
-  File "/usr/local/lib/python3.6/dist-packages/PIL/Image.py", line 2904, i
-n open
-    fp = builtins.open(filename, "rb")
-FileNotFoundError: [Errno 2] No such file or directory: '/tmp/docker/natur
-al_earth/raster_files/NE1_50M_SR_W.tif'
-
-(due to forecast length shortening):
-ls: cannot access '/tmp/docker/experiment/test_CONUS_25km_GFSv15p2/2019061
-500/dynf048.nc': No such file or directory
-
-3. Bus errors and major memory issues when taking a container built with 12 CPU and just changing to 64CPU after reboot on a bigger machine. The possible problems are: bad config change, need to restructure app, need to rebuild container for more CPU.
+Bus errors and major memory issues when taking a container built with 12 CPU and just changing to 64CPU after reboot on a bigger machine. The possible problems are: bad config change, need to restructure app, need to rebuild container for more CPU.

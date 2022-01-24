@@ -60,7 +60,7 @@ RUN_CMD_POST="mpirun -np 12"
 
 # Comment out the next five lines if you want the 12 core settings
 # Four (4) core machines
-LAYOUT_X="1"
-LAYOUT_Y="3"
-RUN_CMD_UTILS="mpirun -np 4"
-RUN_CMD_POST="mpirun -np 4"
+#LAYOUT_X="1"
+#LAYOUT_Y="3"
+#RUN_CMD_UTILS="mpirun -np 4"
+#RUN_CMD_POST="mpirun -np 4"

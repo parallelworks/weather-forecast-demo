@@ -25,4 +25,4 @@ export DOCKER_TEMP_DIR=/tmp/docker
 # 3) add an automated run script.  Need to copy it
 #    to $HOST_TEMP_DIR so it is mounted in the container.
 cp -f demo_script.sh $HOST_TEMP_DIR/demo_script.sh
-sudo docker run --rm --mount "type=bind,source=${HOST_TEMP_DIR},target=${DOCKER_TEMP_DIR}" -it parallelworks/ufs-srweather-app /bin/bash --login $DOCKER_TEMP_DIR/demo_script.sh
+sudo docker run --rm --mount "type=bind,source=${HOST_TEMP_DIR},target=${DOCKER_TEMP_DIR}" -it parallelworks/ufs-srweather-demo:v1.04cpu /bin/bash --login $DOCKER_TEMP_DIR/demo_script.sh
