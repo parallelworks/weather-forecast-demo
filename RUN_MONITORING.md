@@ -49,7 +49,10 @@ and 16M of logs in `log`.
 A 6 hour forecast on the 25km grid will output
 5GB of data in `experiment`.  With 4 CPU, it
 takes 35 minutes to run end-to-end, about 7
-minutes with 12 CPU.
+minutes with 32 CPU.  In the 32 CPU case,
+only 12 CPU are being used, but you get a
+more than 2x faster bandwidth to local persistent
+disk when you go from 31 to 32 cpu.
 
 ## Preprocessing, run setup, and overview
 

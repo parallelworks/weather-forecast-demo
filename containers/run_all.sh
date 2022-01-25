@@ -99,20 +99,23 @@ cd ../Python
 #        $DOCKER_TEMP_DIR/natural_earth
 # Shorten plotting from 48h to 6h forecast
 python3 ./plot_allvars.py 2019061500 6 6 6 \
-        $DOCKER_TEMP_DIR/experiment/test_CONUS_25km_GFSv15p2/ \
+        $EXPTDIR \
         $DOCKER_TEMP_DIR/natural_earth
+
 # Make sure at least one plot exists:
-ls -1 $DOCKER_TEMP_DIR/experiment/test_CONUS_25km_GFSv15p2/2019061500/postprd/*.png > /dev/null
+ls -l $EXPTDIR/2019061500/postprd/*.png > /dev/null
 
 set +x
 echo
 echo Done.
 echo
 echo The model ran here:
-echo "  " $DOCKER_TEMP_DIR/experiment/test_CONUS_25km_GFSv15p2/2019061500
+#echo "  " $DOCKER_TEMP_DIR/experiment/test_CONUS_25km_GFSv15p2/2019061500
+echo "  " $EXPTDIR/2019061500
 echo
 echo GRIB2 files and plots are in the postprd subdirectory:
-echo "  " $DOCKER_TEMP_DIR/experiment/test_CONUS_25km_GFSv15p2/2019061500/postprd
+#echo "  " $DOCKER_TEMP_DIR/experiment/test_CONUS_25km/GFSv15p2/2019061500/postprd
+echo "  " $EXPTDIR/2019061500/postprd
 echo
 echo Enjoy.
 
