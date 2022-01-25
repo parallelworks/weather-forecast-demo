@@ -39,6 +39,11 @@ ulimit -s unlimited
 # ulimit -s 6000000
 
 # All run_ scripts assume this variable is set:
+# This is also set in config_defaults.sh,
+# which is read when the workflow is generated
+# but somehow not propagated into the environment.
+# This can result in a different directory than
+# what the user espects as defined in config.sh!
 export EXPTDIR=$DOCKER_TEMP_DIR/experiment/test_CONUS_25km_GFSv15p2
 
 ########################################################################

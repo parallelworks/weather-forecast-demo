@@ -1,7 +1,7 @@
 MACHINE=LINUX
 ACCOUNT="an_account"
 EXPT_BASEDIR=$DOCKER_TEMP_DIR/experiment
-EXPT_SUBDIR="test_CONUS_25km_GFSv15p2"
+EXPT_SUBDIR="test8_CONUS_25km_GFSv15p2"
 
 VERBOSE="TRUE"
 
@@ -57,6 +57,16 @@ RUN_CMD_FCST="mpirun -np \${PE_MEMBER01}"
 # Twelve (12) core machines
 RUN_CMD_UTILS="mpirun -np 12"
 RUN_CMD_POST="mpirun -np 12"
+
+# 32 core machine testing
+# There are several issues at
+# play including input tile files
+# are already set to a certain
+# domain decomp.
+#RUN_CMD_UTILS="mpirun -np 32"
+#RUN_CMD_POST="mpirun -np 32"
+#LAYOUT_X="5"
+#LAYOUT_Y="4"
 
 # Comment out the next five lines if you want the 12 core settings
 # Four (4) core machines

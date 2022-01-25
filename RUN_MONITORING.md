@@ -15,9 +15,15 @@ container for a 12 CPU, 48 hour forecast, but then I changed the
 forecast length and reducted CPUs to 4 in:
 `/usr/local/src/ufs-srweather-app/regional_workflow/ush/config.sh`
 which is where the config.sh that gets included into the container
-appears to end up.  So, in summary, you can change the run
-specifications on-the-fly without having to rebuild the container
-(under certain situations...).
+appears to end up.
+
+In general, it appears that a container built with N CPU cannot
+run with more than N CPU, even if we copy the container to a new
+computer with more than N CPU and we tell mpirun to use more than
+N cores.  We can, however, use a container that is built on M CPU
+and run with N < M CPU.  The complicating factor is that the
+model domain decomposition (which sets the number of MPI
+processes and CPU that can be used) must be set very carefully.
 
 ## Data management
 
@@ -42,7 +48,8 @@ and 16M of logs in `log`.
 
 A 6 hour forecast on the 25km grid will output
 5GB of data in `experiment`.  With 4 CPU, it
-takes 35 minutes to run end-to-end.
+takes 35 minutes to run end-to-end, about 7
+minutes with 12 CPU.
 
 ## Preprocessing, run setup, and overview
 

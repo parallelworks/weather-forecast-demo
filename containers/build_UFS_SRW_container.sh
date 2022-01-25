@@ -28,4 +28,4 @@
 #docker import 20210224-ubuntu18-nceplibs.gz import-nceplibs-20220119
 
 
-docker build -t parallelworks/ufs-srweather-demo:v1.04cpu -f ufs-srweather-app-Dockerfile .
+docker build -t parallelworks/ufs-srweather-demo:v1.32cpu -f ufs-srweather-app-Dockerfile .
