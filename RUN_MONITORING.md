@@ -3,7 +3,20 @@
 Read this file after ./container/README.md or
 ./direct_install/README.md (general setup and running notes).
 
-Peak RAM usage on LINUX for 25km grid: 20GB
+## Hardware requirements:
+
+04 CPU is recommended minimum ->
+12 CPU results in ->
+32 CPU results in ->
+The larger cores are faster than linear speedup
+b/c disk I/O speeds up too on GCE and I/O requirements
+can be substantial.
+
+Peak RAM usage for 25km grid: 20GB
+Peak RAM usage for 03km grid: 43GB
+
+100GB hard disk is sufficient for up to 3-4 low resolution runs.
+
 
 ## Run scoping
 
@@ -48,11 +61,12 @@ and 16M of logs in `log`.
 
 A 6 hour forecast on the 25km grid will output
 5GB of data in `experiment`.  With 4 CPU, it
-takes 35 minutes to run end-to-end, about 7
+takes 35 minutes to run end-to-end, about 7-9
 minutes with 32 CPU.  In the 32 CPU case,
 only 12 CPU are being used, but you get a
 more than 2x faster bandwidth to local persistent
-disk when you go from 31 to 32 cpu.
+disk when you go from 31 to 32 cpu.  In a test
+with 
 
 ## Preprocessing, run setup, and overview
 

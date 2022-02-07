@@ -75,6 +75,15 @@ build context either, further speeding up build time.
 reset the environment variables in Step 2.  They are automatically
 set in `run_UFS_SRW_container.sh`.
 
+The script `run_UFS_SRW_container.sh` was setup to simplify the run
+process by starting the container and then sending `config.sh` for
+a particular run and all the commands necessary to set up the run
+environment in the container and run the model with `demo_script.sh`.
+To specify which `config.sh` you want to run with:
+```bash
+./run_UFS_SRW_container.sh config.sh
+``
+
 ## Step 6: Monitor and postprocess and visualize the runs.
 
 See RUN_MONITORING.md in the top level directory since this

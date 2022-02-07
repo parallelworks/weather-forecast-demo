@@ -28,6 +28,6 @@ cp -f demo_script.sh $HOST_TEMP_DIR/demo_script.sh
 # 4) move config.sh here into $HOST_TEMP_DIR -> will
 #    allow for quick changes to config to overwrite
 #    config in the container.
-cp -f config.sh $HOST_TEMP_DIR/config.sh
+cp -f $1 $HOST_TEMP_DIR/config.sh
 
 sudo docker run --rm --mount "type=bind,source=${HOST_TEMP_DIR},target=${DOCKER_TEMP_DIR}" -it parallelworks/ufs-srweather-demo:v1.32cpu /bin/bash --login $DOCKER_TEMP_DIR/demo_script.sh
