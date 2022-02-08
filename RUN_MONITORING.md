@@ -5,17 +5,19 @@ Read this file after ./container/README.md or
 
 ## Hardware requirements:
 
-04 CPU is recommended minimum ->
+04 CPU is recommended minimum
+04 CPU results for low res -> ~1 hour for 6 hour forecast
 12 CPU results in ->
-32 CPU results in ->
+32 CPU (not all used) ->
+
 The larger cores are faster than linear speedup
 b/c disk I/O speeds up too on GCE and I/O requirements
 can be substantial.
 
-Peak RAM usage for 25km grid: 20GB
-Peak RAM usage for 03km grid: 43GB
+Peak RAM usage for 25km grid: 20GB (preproc), forecast RAM ~3GB.
+Peak RAM usage for 03km grid: 43GB (preproc), forecast could be 100x.
 
-100GB hard disk is sufficient for up to 3-4 low resolution runs.
+6 hour, low res (25km) forecast: ~5GB stored output
 
 
 ## Run scoping
