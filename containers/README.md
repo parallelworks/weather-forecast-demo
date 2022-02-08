@@ -5,8 +5,14 @@ the container depending on size of machine.
 
 ## Step 1: Download files
 
-The first link requires downloading 7 files.  Their download
-is automated in `get_UFS_SRW_files.sh`.  The files are:
+The instructions requires downloading 7 files.  Their download
+is automated in `get_UFS_SRW_files.sh`.  If you prefer to use
+the publicly available Docker container and the scripts in this
+repository, you do not need files #1, 2, 3, and 4.  The other
+files #5, 6, and 7 are required as boundary conditions for the
+model, other inputs, or for plotting.
+
+The files are:
 1. [NCEPLIBS container](https://ufs-data.s3.amazonaws.com/public_release/ufs-srweather-app-v1.0.0/docker/20210224-ubuntu18-nceplibs.gz)
 2. [config.sh](https://ufs-data.s3.amazonaws.com/public_release/ufs-srweather-app-v1.0.0/docker/config.sh)
 3. [run_all.sh](https://ufs-data.s3.amazonaws.com/public_release/ufs-srweather-app-v1.0.0/docker/run_all.sh)
