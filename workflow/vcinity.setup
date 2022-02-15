@@ -28,7 +28,7 @@ run_id=`mktemp -u | awk -F. '{print $2}'`
 # Mount Vcinity parallel file system
 echo "=======> Mounting VCINITY PARALLEL to AWS WEST <======="
 #sudo mount -vvv -o sync,nolock,vers=4 54.241.247.242:/ultxvfs2 $PW_STORAGE
-sudo mount -vvv -o nolock,vers=4 54.241.247.242:/ultxvfs2 $PW_STORAGE
+sudo mount -vvv -o nolock,vers=4 54.241.242.247:/ultxvfs2 $PW_STORAGE
 
 # Create new ufs working dir from template for hybrid options
 # Delete existing Docker image

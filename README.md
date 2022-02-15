@@ -3,7 +3,7 @@ Demonstration of weather forecast model running in the cloud.
 
 1. containers - how to build and use the Docker and Singularity containers used in this demo.
 2. workflow - workflow orchestration files/docs for running the demo via PW
-3. vis - visualization tools to postprocess demo output
+3. vis - visualization tools to postprocess demo output (in addition to default built-in postproc plotting)
 
 An alternative to using containers is to directly install
 the UFS-SRW and dependencies onto a worker image.  This is
