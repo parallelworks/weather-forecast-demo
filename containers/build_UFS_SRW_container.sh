@@ -24,8 +24,22 @@
 # each time this step is run if
 # previous images are not cleared.
 # Comment this out if you're just
-# going to rebuild the container.
-#docker import 20210224-ubuntu18-nceplibs.gz import-nceplibs-20220119
-
+# going to rebuild the container
+# based on changes in the dockerfile,
+# but there are no changes to this base
+# image. (I.e. The first time this
+# command is run, the base image is
+# saved in the Docker cache for use later.)
+docker import 20210224-ubuntu18-nceplibs.gz import-nceplibs-20220119
 
 docker build -t parallelworks/ufs-srweather-demo:v1.32cpu -f ufs-srweather-app-Dockerfile .
+
+# To send this container for use elsewhere,
+# you can either:
+# docker push parallelworks/ufs-srweather-demo:v1.32cpu
+# or:
+# docker save --output="ufs-srweather-demo.tar" parallelworks/ufs-srweather-demo:v1.32cpu
+# The first option sends it to a Docker Hub
+# registry, the second option creates a giant
+# file for use later that you can import,
+# just the docker import command, above.
