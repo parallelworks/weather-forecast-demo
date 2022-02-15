@@ -41,6 +41,8 @@ def run_forecast(
         outfile=%s
         mkdir -p $outdir
         mv run.log $outdir/$outfile
+        cp forecast_app.stderr $outdir
+        cp forecast_app.stdout $outdir
         ''' % (run_command,out_dir,out_file)
 
 #==================================

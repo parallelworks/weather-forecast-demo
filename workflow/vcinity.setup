@@ -4,23 +4,41 @@
 # container
 #====================================
 
+# Get inputs
+run_config=$1
+run_container=$2
+
+echo "=============================="
+echo Setup has run_config: $run_config
+echo Setup has run_container: $run_container
+echo "=============================="
+
 # Make mount point
 export PW_STORAGE=/pw/storage
 sudo mkdir -p $PW_STORAGE
 sudo chmod a+rwx $PW_STORAGE
+
+# Create random string to ID/tag one run
+run_id=`mktemp -u | awk -F. '{print $2}'`
+
+#==============================================
+# Setup specific commands
+#==============================================
 
 # Mount Vcinity parallel file system
 echo "=======> Mounting VCINITY PARALLEL to AWS WEST <======="
 #sudo mount -vvv -o sync,nolock,vers=4 54.241.247.242:/ultxvfs2 $PW_STORAGE
 sudo mount -vvv -o nolock,vers=4 54.241.247.242:/ultxvfs2 $PW_STORAGE
 
-#===============================================
-# WORKING HERE!
-#===============================================
-# Create new ufs working dir from template
-# Import the docker image from remote location
+# Create new ufs working dir from template for hybrid options
+# Delete existing Docker image
+# Import the Docker image from remote location
+
 #===============================================
 
+#===============================================
+# Set paths
+#===============================================
 # HOST_TEMP_DIR matches mount point.  All
 # input and output go to the mount.
 # $DOCKER_TEMP_DIR is only used *inside*
@@ -29,13 +47,47 @@ sudo mount -vvv -o nolock,vers=4 54.241.247.242:/ultxvfs2 $PW_STORAGE
 export HOST_TEMP_DIR=$PW_STORAGE/ufs
 export DOCKER_TEMP_DIR=/tmp/docker
 
+# To allow for simultaneous runs in same file
+# system, make unique directories to silo runs
+# from each other.
+# Grab the values of EXPT_BASEDIR and EXPT_SUBDIR
+# in run_config (removing newlines), cat them together,
+# and cat the unique run_id, too.
+orig_expt_subdir=`grep EXPT_SUBDIR ${run_config} | awk -F= '{print $2}' | tr -d \"`
+orig_expt_basedir=`grep EXPT_BASEDIR ${run_config} | awk -F= '{print $2}' | tr -d \"`
+new_expt_subdir=${orig_expt_subdir}.${run_id}
+# Line below must be eval'ed b/c orig_expt_basedir is $DOCKER_TEMP_DIR.
+eval export EXPTDIR=${orig_expt_basedir}/${new_expt_subdir}
+export LOG_DIR=$DOCKER_TEMP_DIR/log.${run_id}
+
+# Config script needs to be updated with new random string.
+# Search and replace where EXPT_SUBDIR is set with the new
+# version.
+mv -f $run_config ${run_config}.bkup
+sed "s/`grep EXPT_SUBDIR= ${run_config}.bkup`/EXPT_SUBDIR=${new_expt_subdir}/g" ${run_config}.bkup > $run_config
+
+echo "==================================="
+echo Setup set `env | grep EXPTDIR`
+echo Setup set `env | grep LOG_DIR`
+echo Setup set `env | grep DOCKER_TEMP_DIR`
+echo Setup set `env | grep HOST_TEMP_DIR`
+echo "==================================="
+
 # Move the config script into $HOST_TEMP_DIR -> will
 # allow for quick changes to config to overwrite
 # config in the container.
-cp -f $1 $HOST_TEMP_DIR/config.sh
+#cp -f $1 $HOST_TEMP_DIR/config.sh
+# Since PWD is mounted to /app in container, start with
+# config there.  Do not copy to $HOST_TEMP_DIR to
+# avoid race condition of running similtaneously.
 
 # Copy the workflow run script to the working directory
-cp -f $2 $HOST_TEMP_DIR/workflow_script.sh
+#cp -f $2 $HOST_TEMP_DIR/workflow_script.sh
+# NOT NECESSARY - MOUNTING PWD to /app, starting with app as workdir.
 
 #sudo docker run --rm --mount "type=bind,source=${HOST_TEMP_DIR},target=${DOCKER_TEMP_DIR}" parallelworks/ufs-srweather-demo:v1.32cpu /bin/bash --login $DOCKER_TEMP_DIR/workflow_script.sh
-sudo docker run --rm --mount "type=bind,source=${HOST_TEMP_DIR},target=${DOCKER_TEMP_DIR}" parallelworks/ufs-srweather-demo:v1.32cpu /bin/bash $DOCKER_TEMP_DIR/workflow_script.sh
+
+# Note that when you run "sudo docker" this starts a new shell
+# for the superuser and does not transfer environment variables. So, instead
+# explicitly include the vars we want in the sudo, too.
+sudo --preserve-env=DOCKER_TEMP_DIR,EXPTDIR,LOG_DIR docker run --rm --mount "type=bind,source=${HOST_TEMP_DIR},target=${DOCKER_TEMP_DIR}" --mount "type=bind,source=${PWD},target=/app" --workdir="/app" --env LOG_DIR --env EXPTDIR --env DOCKER_TEMP_DIR parallelworks/ufs-srweather-demo:v1.32cpu /bin/bash $run_container $run_config
