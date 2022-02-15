@@ -106,6 +106,19 @@ on a larger machine results in memmory/bus errors.  For now,
 tag the containers based on the the number of CPU used
 to compile them, e.g.:
 ```bash
-docker image tag <image_id> parallelworks/ufs-srweather-demo:v1.16cpu
+docker image tag <image_id> parallelworks/ufs-srweather-demo:v1.32cpu
 ```
 The v1 referes to the UFS-SRW version number.
+
+## Singularity containers
+
+While it is straightforward to use
+```bash
+singularity pull singularity pull docker://parallelworks/ufs-srweather-demo:v1.32cpu
+```
+to convert a Docker container on DockerHub to a Singularity container,
+the Singularity container will need to be set up as an editable
+sandbox in order to run UFS SRW because there are several files
+within the container file system that need to be modified in order
+to build and run the default UFS SRW workflow.  For now, stick with
+a Docker container.

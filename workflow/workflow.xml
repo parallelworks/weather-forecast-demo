@@ -1,0 +1,15 @@
+<tool id='vcinity_fv3_ufs_srweather_demo' name='vcinity_fv3_ufs_srweather_demo'>
+  <command interpreter='parsl'>main.py</command>
+  <inputs>
+    <param name='casename' label='Case Name' type='text' value='FV3-00' width='30%'>^M
+    </param>
+    <param name='setup_scripts' type='data' multiple='True' label='Workflow setup scripts (.setup)' format='setup' width='100%'>
+    </param>
+    <param name='config_scripts' type='data' multiple='True' label='FV3 UFS SRW config (.config)' format='config' width='100%'>
+    </param>
+  </inputs>
+  <outputs>
+    <data name='out_dir' format='txt' label='${casename}-out'>^M
+    </data>
+  </outputs>
+</tool>
