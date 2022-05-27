@@ -35,15 +35,16 @@ def run_forecast(
         # using strings in the tuple at the end of
         # the long text string) and then
         # run as a bash app.
+        # Grab run time info with (time COMMAND) > LOG 2>&1
         return '''
-        %s > run.log
-        outdir=%s
+        (time %s ) > run.log 2>&1
+        outdir=%s/%s_%s
         outfile=%s
         mkdir -p $outdir
         mv run.log $outdir/$outfile
         cp forecast_app.stderr $outdir
         cp forecast_app.stdout $outdir
-        ''' % (run_command,out_dir,out_file)
+        ''' % (run_command,out_dir,setup,config,out_file)
 
 #==================================
 # Workflow
@@ -51,15 +52,15 @@ def run_forecast(
 def main():
         setup_scripts = pwargs.setup_scripts.split('---')
         config_scripts = pwargs.config_scripts.split('---')
+        container_script = Path("container_script.sh")
+        out_dir_name = pwargs.out_dir
+        out_dir = Path(out_dir_name)
         runs=[]
         for setup_script_name in setup_scripts:
                 setup_script = Path(setup_script_name)
-                out_dir = Path(pwargs.out_dir)
 
                 for config_script_name in config_scripts:
                         config_script = Path(config_script_name)
-
-                        container_script = Path("container_script.sh")
                         r = run_forecast(
                                 inputs=[setup_script,config_script,container_script],
                                 outputs=[out_dir])
